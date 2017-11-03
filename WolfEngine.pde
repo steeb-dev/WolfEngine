@@ -1,0 +1,42 @@
+   
+  Player player;
+  Map map;
+  Camera camera;
+  int lastFrameMillis;
+  float delta;
+  color skycolor;
+  color groundcolor;
+  
+ void setup ()
+ {
+   groundcolor = color(0);
+   skycolor = color(205,70,200);
+   
+   size(640, 480);
+   this.player = new Player(15.3, -1.2, PI * 0.3);
+   this.map = new Map(32);
+   this.camera = new Camera(90, PI * 0.4);
+
+   this.map.randomize();
+   
+   background(groundcolor);
+ }
+ 
+ void draw()
+ {
+   background(groundcolor);
+   delta = (float)(millis() - lastFrameMillis) / 1000.0;
+   lastFrameMillis = millis();
+   if(keyPressed)
+   {     
+     if(key == 'a') player.Rotate(-PI * (float)delta);
+     if (key == 'd') player.Rotate(PI * (float)delta);
+     if (key == 'w')
+     {
+       player.Walk(3 * delta, map);
+     }
+     if (key == 's') player.Walk(-3 * delta, map);
+   }
+   camera.render(player, map, skycolor);
+ }
+ 
